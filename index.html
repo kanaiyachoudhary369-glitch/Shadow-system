@@ -275,8 +275,108 @@ function focusMission() {
   });
 }
 
-function addMission() {
+let missionData = JSON.parse(localStorage.getItem("shadowMissions")) || [];
+let missionXP = Number(localStorage.getItem("shadowXP")) || 0;
 
+function saveMissionData() {
+  localStorage.setItem("shadowMissions", JSON.stringify(missionData));
+  localStorage.setItem("shadowXP", missionXP);
+}
+
+function getLevel() {
+  return Math.floor(missionXP / 50) + 1;
+}
+
+function updateMissionStats() {
+  let stats = document.getElementById("missionStats");
+
+  if (!stats) {
+    stats = document.createElement("div");
+    stats.id = "missionStats";
+    stats.style.margin = "15px 0";
+    stats.style.padding = "15px";
+    stats.style.border = "1px solid rgba(255,255,255,0.25)";
+    stats.style.borderRadius = "12px";
+    stats.style.background = "rgba(0,0,0,0.25)";
+
+    const list = document.getElementById("missionList");
+    list.parentElement.insertBefore(stats, list);
+  }
+
+  const completedCount = missionData.filter(m => m.completed).length;
+  const totalCount = missionData.length;
+
+  let progress = totalCount === 0
+    ? 0
+    : Math.round((completedCount / totalCount) * 100);
+
+  stats.innerHTML = `
+    <b>⭐ XP:</b> ${missionXP}
+    &nbsp;&nbsp;
+    <b>🏆 Level:</b> ${getLevel()}
+    <br><br>
+    <b>🎯 Missions:</b> ${completedCount}/${totalCount}
+    <br>
+    <div style="
+      margin-top:8px;
+      height:10px;
+      background:rgba(255,255,255,0.15);
+      border-radius:10px;
+      overflow:hidden;
+    ">
+      <div style="
+        width:${progress}%;
+        height:100%;
+        background:#00eaff;
+        transition:width 0.4s;
+      "></div>
+    </div>
+  `;
+}
+
+function renderMissions() {
+  const list = document.getElementById("missionList");
+
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  missionData.forEach((mission, index) => {
+    const div = document.createElement("div");
+    div.className = "mission";
+
+    div.style.display = "flex";
+    div.style.alignItems = "center";
+    div.style.justifyContent = "space-between";
+    div.style.gap = "10px";
+    div.style.margin = "8px 0";
+
+    div.style.opacity = mission.completed ? "0.5" : "1";
+
+    div.innerHTML = `
+      <span>
+        🎯 ${mission.text}
+        ${mission.completed ? " — ✅ Completed" : ""}
+      </span>
+
+      <div>
+        ${
+          mission.completed
+          ? `<button disabled>Completed</button>`
+          : `<button onclick="completeMission(${index})">Complete</button>`
+        }
+
+        <button onclick="deleteMission(${index})">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+
+  updateMissionStats();
+}
+
+function addMission() {
   const input = document.getElementById("missionInput");
   const text = input.value.trim();
 
@@ -285,34 +385,47 @@ function addMission() {
     return;
   }
 
-  const mission = document.createElement("div");
-  mission.className = "mission";
+  missionData.push({
+    text: text,
+    completed: false
+  });
 
-  mission.innerHTML = `
-    <span>🎯 ${text}</span>
-    <button onclick="completeMission(this)">Complete</button>
-  `;
-
-  document.getElementById("missionList").appendChild(mission);
+  saveMissionData();
 
   input.value = "";
+
+  renderMissions();
 }
 
-function completeMission(button) {
+function completeMission(index) {
+  if (!missionData[index] || missionData[index].completed) {
+    return;
+  }
 
-  button.parentElement.style.opacity = "0.5";
-  button.innerText = "Completed";
-  button.disabled = true;
+  missionData[index].completed = true;
 
-  completed++;
+  missionXP += 10;
 
-  document.getElementById("completed").innerText = completed;
+  saveMissionData();
 
-  let percentage = Math.min(completed * 20, 100);
+  alert("Mission completed! +10 XP ⭐");
 
-  document.getElementById("progressBar").style.width =
-    percentage + "%";
+  renderMissions();
 }
+
+function deleteMission(index) {
+  if (!missionData[index]) {
+    return;
+  }
+
+  missionData.splice(index, 1);
+
+  saveMissionData();
+
+  renderMissions();
+}
+
+renderMissions();
 
 function showProgress() {
 
