@@ -284,9 +284,20 @@ function saveMissionData() {
 }
 
 function getLevel() {
-  return Math.floor(missionXP / 50) + 1;
+  return Math.min(Math.floor(missionXP / 50) + 1, 100);
 }
-
+function getRank(level) {
+  if (level <= 10) return "Novice";
+  if (level <= 20) return "Hunter";
+  if (level <= 30) return "Warrior";
+  if (level <= 40) return "Elite";
+  if (level <= 50) return "Knight";
+  if (level <= 60) return "Commander";
+  if (level <= 70) return "Master";
+  if (level <= 80) return "Grandmaster";
+  if (level <= 90) return "Monarch";
+  return "Shadow Sovereign";
+}
 function updateMissionStats() {
   let stats = document.getElementById("missionStats");
 
@@ -397,21 +408,6 @@ function addMission() {
   renderMissions();
 }
 
-function completeMission(index) {
-  if (!missionData[index] || missionData[index].completed) {
-    return;
-  }
-
-  missionData[index].completed = true;
-
-  missionXP += 10;
-
-  saveMissionData();
-
-  alert("Mission completed! +10 XP ⭐");
-
-  renderMissions();
-}
 
 function deleteMission(index) {
   if (!missionData[index]) {
@@ -420,7 +416,29 @@ function deleteMission(index) {
 
   missionData.splice(index, 1);
 
+  saveMissionData();function completeMission(index) {
+  if (!missionData[index] || missionData[index].completed) {
+    return;
+  }
+
+  missionData[index].completed = true;
+
+  // XP sirf mission complete karne par milega
+  missionXP += 10;
+
+  // Level maximum 100
+  const level = getLevel();
+
   saveMissionData();
+
+  alert(
+    "Mission completed! +10 XP ⭐\n" +
+    "Level: " + level + "\n" +
+    "Rank: " + getRank(level)
+  );
+
+  renderMissions();
+}
 
   renderMissions();
 }
