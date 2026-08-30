@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shadow System</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #172554 0%, #050816 45%, #02030a 100%);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    header {
+      padding: 25px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #8ab4ff;
+      text-shadow: 0 0 15px #3b82f6;
+    }
+
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #60a5fa;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px 70px;
+    }
+
+    .system {
+      display: inline-block;
+      padding: 8px 18px;
+      border: 1px solid #2563eb;
+      border-radius: 30px;
+      color: #60a5fa;
+      background: rgba(37, 99, 235, 0.08);
+      margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+    }
+
+    h1 {
+      font-size: clamp(45px, 8vw, 90px);
+      line-height: 1;
+      margin-bottom: 25px;
+      text-shadow:
+        0 0 10px #2563eb,
+        0 0 35px rgba(37, 99, 235, 0.5);
+    }
+
+    .subtitle {
+      max-width: 650px;
+      margin: auto;
+      color: #94a3b8;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 35px;
+      padding: 15px 35px;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.5);
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      background: #3b82f6;
+      box-shadow: 0 0 35px rgba(59, 130, 246, 0.7);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 30px 0 80px;
+    }
+
+    .card {
+      padding: 30px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #3b82f6;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.2);
+    }
+
+    .card h2 {
+      color: #60a5fa;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .status {
+      margin: 20px auto 80px;
+      max-width: 700px;
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid #1e40af;
+      text-align: center;
+    }
+
+    .online {
+      color: #4ade80;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid rgba(100, 150, 255, 0.15);
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+      <div class="logo">SHADOW SYSTEM</div>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#system">System</a>
+      </nav>
+    </header>
+
+
+    <section class="hero" id="home">
+
+      <div class="system">
+        SYSTEM ONLINE
+      </div>
+
+      <h1>SHADOW<br>SYSTEM</h1>
+
+      <p class="subtitle">
+        Enter the next generation of your digital journey.
+        Build. Learn. Create. Evolve.
+      </p>
+
+      <a href="#features" class="button">
+        ENTER SYSTEM
+      </a>
+
+    </section>
+
+
+    <section class="cards" id="features">
+
+      <div class="card">
+        <h2>⚡ Missions</h2>
+        <p>
+          Complete your goals and turn every task into a new mission.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>⬆ Progress</h2>
+        <p>
+          Track your progress and improve your skills step by step.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>◈ AI System</h2>
+        <p>
+          Your personal digital system interface for future features.
+        </p>
+      </div>
+
+    </section>
+
+
+    <section class="status" id="system">
+
+      <p>
+        SYSTEM STATUS:
+        <span class="online">● ONLINE</span>
+      </p>
+
+    </section>
+
+  </div>
+
+
+  <footer>
+    © 2026 Shadow System — All rights reserved.
+  </footer>
+
+</body>
+</html>
